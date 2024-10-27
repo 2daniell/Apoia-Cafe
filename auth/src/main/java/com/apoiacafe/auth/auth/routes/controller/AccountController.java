@@ -21,7 +21,7 @@ import com.apoiacafe.auth.auth.routes.controller.dto.TokenResponseDTO;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/account")
 public class AccountController {

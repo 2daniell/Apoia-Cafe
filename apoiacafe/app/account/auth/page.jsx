@@ -1,23 +1,36 @@
-"use client";
+'use client'
+import { useAuth } from "@/app/contexts/AuthContext";
 import { useState } from "react";
 
-export default function AuthPage() {
+function Auth() {
+  
   const [isLogin, setIsLogin] = useState(true);
   const [ formData, setFormData ] = useState({
-    email: "",
-    password: "",
-    name: "",
+      email: "",
+      password: "",
+      name: "",
   });
+
+  const { signIn } = useAuth;
 
   const toggleForm = () => setIsLogin(!isLogin);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+      e.preventDefault();
 
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+      console.log(formData)
 
-    console.log(formData);
-    console.log(baseUrl)
+      if (isLogin) {
+          try {
+              await signIn({
+                  email: formData.email,
+                  password: formData.password
+              });
+
+          } catch (error) {
+              console.log("Ocorreu um erro inesperado " + error);
+          }
+      }
   };
 
   const handleChange = (e) =>{
@@ -29,7 +42,7 @@ export default function AuthPage() {
   }
 
   return (
-    <main className="relative min-h-screen flex items-center justify-center bg-gray-50 px-4 overflow-hidden">
+    <div className="relative min-h-screen flex items-center justify-center bg-gray-50 px-4 overflow-hidden">
       
       
       <div
@@ -96,6 +109,7 @@ export default function AuthPage() {
           {isLogin ? "Não tem uma conta? Cadastre-se" : "Já tem uma conta? Entre"}
         </button>
       </section>
-    </main>
-  );
-}
+    </div>
+  )}
+
+export default Auth
