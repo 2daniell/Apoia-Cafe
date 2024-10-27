@@ -1,0 +1,20 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: authentication
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - RewritePath=/api/auth/(?<segment>.*), /${segment}
+
+        - id: payment
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/payment/**
+          filters:
+            - RewritePath=/api/payment/(?<segment>.*), /${segment}
+server:
+  servlet:
+    context-path: /api
